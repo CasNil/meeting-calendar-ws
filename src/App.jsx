@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import ScheduleMeeting from "./Components/ScheduleMeeting";
+import Navbar from "./Components/Navbar";
 
 const App = () => {
   const [meetings, setMeetings] = useState([]);
@@ -9,9 +10,12 @@ const App = () => {
   };
 
   return (
-    <div className="container my-5">
-      <div className="row">
-        <ScheduleMeeting addMeeting={addMeeting} />
+    <div>
+      <Navbar />
+      <div className="container my-5">
+        <div className="row">
+          <ScheduleMeeting addMeeting={addMeeting} />
+        </div>
       </div>
     </div>
   );
