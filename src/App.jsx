@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import ScheduleMeeting from "./Components/ScheduleMeeting";
 import Navbar from "./Components/Navbar";
+import Footer from "./Components/Footer";
 
 const App = () => {
   const [meetings, setMeetings] = useState([]);
@@ -17,6 +18,7 @@ const App = () => {
           <ScheduleMeeting addMeeting={addMeeting} />
         </div>
       </div>
+      <Footer />
     </div>
   );
 };
