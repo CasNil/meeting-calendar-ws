@@ -1,8 +1,7 @@
 import React from "react";
 import MeetingForm from "./MeetingForm";
 import { BsCalendar2Week } from "react-icons/bs";
-import 'bootstrap/dist/css/bootstrap.min.css';
-
+import "bootstrap/dist/css/bootstrap.min.css";
 
 const ScheduleMeeting = ({ addMeeting }) => {
   return (
@@ -13,17 +12,17 @@ const ScheduleMeeting = ({ addMeeting }) => {
           style={{
             backgroundColor: "blue",
             border: "2px solid",
-            borderRadius: "10px",
+            borderRadius: "5px",
             padding: "10px",
             color: "white",
           }}
         >
-          <h1>
-            <BsCalendar2Week style={{ marginRight: "10px"}}/>
+          <h2 className="d-flex align-items-center">
+            <BsCalendar2Week style={{ marginRight: "10px" }} />
             Schedule a New Meeting
-          </h1>
+          </h2>
         </div>
-        
+
         <div className="card-body">
           <MeetingForm addMeeting={addMeeting} />
         </div>
