@@ -1,112 +1,138 @@
-import React, { useState } from "react";
+import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
+import { useForm } from "react-hook-form";
 
 const MeetingForm = ({ addMeeting }) => {
-  const [formData, setFormData] = useState({
-    title: "",
-    date: "",
-    time: "",
-    level: "",
-    participants: "",
-    description: "",
-  });
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+    watch,
+  } = useForm();
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    addMeeting(formData);
-
-    setFormData({
-      title: "",
-      date: "",
-      time: "",
-      level: "",
-      participants: "",
-      description,
-    });
+  const onSubmit = (data) => {
+    addMeeting(data);
+    reset();
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit(onSubmit)}>
       <div className="mb-3">
         <label className="form-label">Meeting Title</label>
         <input
+          {...register("title", {
+            required: "Title is required",
+          })}
           placeholder="Enter meeting title"
           type="text"
-          className="form-control"
-          onChange={handleChange}
-          name="title"
-          value={formData.title}
-          required
+          className={`form-control ${errors.title ? "is-invalid" : ""}`}
         />
+        {errors.title && (
+          <div className="invalid-feedback">{errors.title.message}</div>
+        )}
       </div>
       <div className="row">
         <div className="mb-3 col-md-6">
           <label className="form-label">Meeting Date</label>
           <input
+            {...register("date", {
+              required: "Date is required",
+              validate: {
+                notPastDate: (value) => {
+                  const today = new Date();
+                  const selectedDate = new Date(value);
+                  return (
+                    selectedDate >= today.setHours(0, 0, 0, 0) ||
+                    "Date cannot be in the past"
+                  );
+                },
+              },
+            })}
             type="date"
-            className="form-control"
-            onChange={handleChange}
-            name="date"
-            value={formData.date}
-            required
+            className={`form-control ${errors.date ? "is-invalid" : ""}`}
           />
+          {errors.date && (
+            <div className="invalid-feedback">{errors.date.message}</div>
+          )}
         </div>
         <div className="mb-3 col-md-6">
           <label className="form-label">Meeting Time</label>
           <input
+            {...register("time", {
+              required: "Time is required",
+              validate: {
+                notPastTime: (value) => {
+                  const today = new Date();
+                  const selectedDate = watch("date");
+                  if (!selectedDate) return "Please select a date first";
+
+                  const selectedDateTime = new Date(`${selectedDate}T${value}`);
+                  return (
+                    selectedDateTime >= today || "Time must be in the future"
+                  );
+                },
+              },
+            })}
             type="time"
-            className="form-control"
-            onChange={handleChange}
-            name="time"
-            value={formData.time}
-            required
+            className={`form-control ${errors.time ? "is-invalid" : ""}`}
           />
+          {errors.time && (
+            <div className="invalid-feedback">{errors.time.message}</div>
+          )}
         </div>
       </div>
       <div className="mb-3">
         <label className="form-label">Meeting Level</label>
         <select
-          className="form-control"
-          onChange={handleChange}
-          name="level"
-          value={formData.level}
-          required
+          {...register("level", { required: "Level is required" })}
+          className={`form-control ${errors.level ? "is-invalid" : ""}`}
         >
           <option value="">Choose Level</option>
           <option value={"team"}>Team</option>
           <option value={"department"}>Department</option>
           <option value={"company"}>Company</option>
         </select>
+        {errors.level && (
+          <div className="invalid-feedback">{errors.level.message}</div>
+        )}
       </div>
       <div className="mb-3">
         <label className="form-label">Participants</label>
         <input
+          {...register("participants", {
+            required: "Participants are required",
+            pattern: {
+              value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+              message: "Email is invalid",
+            },
+          })}
           placeholder="Enter participant emails"
           type="text"
-          className="form-control"
-          onChange={handleChange}
-          name="participants"
-          value={formData.participants}
-          required
+          className={`form-control ${errors.participants ? "is-invalid" : ""}`}
         />
+        {errors.participants && (
+          <div className="invalid-feedback">{errors.participants.message}</div>
+        )}
       </div>
       <div className="mb-3">
         <label className="form-label">Description</label>
         <textarea
+          {...register("description", {
+            required: "Description is required",
+            minLength: {
+              value: 5,
+              message: "Description is too short",
+            },
+          })}
           placeholder="Enter meeting description"
           type="text"
-          className="form-control"
-          onChange={handleChange}
-          name="description"
-          value={formData.description}
-          required
+          className={`form-control ${errors.description ? "is-invalid" : ""}`}
           rows="3"
         />
+        {errors.description && (
+          <div className="invalid-feedback">{errors.description.message}</div>
+        )}
       </div>
       <button type="submit" className="btn btn-primary">
         Create Meeting
