@@ -3,7 +3,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { CiEdit, CiTrash } from "react-icons/ci";
 import { useForm } from "react-hook-form";
 
-const MeetingList = ({ meetings, editMeeting }) => {
+const MeetingList = ({ meetings, editMeeting, deleteMeeting }) => {
   const [editingId, setEditingId] = useState(null);
 
   const {
@@ -42,6 +42,15 @@ const MeetingList = ({ meetings, editMeeting }) => {
 
   const handleCancel = () => {
     setEditingId(null);
+  };
+
+  const handleDeleteClick = (meeting) => {
+    const userConfirmed = window.confirm(
+      `Are you sure you want to delete the meeting "${meeting.title}?"`
+    );
+    if (userConfirmed) {
+      deleteMeeting(meeting.id);
+    }
   };
 
   return (
@@ -196,7 +205,10 @@ const MeetingList = ({ meetings, editMeeting }) => {
                       >
                         <CiEdit />
                       </button>
-                      <button className="btn btn-danger btn-sm">
+                      <button
+                        className="btn btn-danger btn-sm"
+                        onClick={() => handleDeleteClick(meeting)}
+                      >
                         <CiTrash />
                       </button>
                     </td>

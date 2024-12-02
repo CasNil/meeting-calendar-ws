@@ -20,6 +20,10 @@ const App = () => {
     );
   };
 
+  const deleteMeeting = (id) => {
+    setMeetings((prev) => prev.filter((meeting) => meeting.id !== id));
+  };
+
   return (
     <div className="d-flex flex-column min-vh-100">
       <Navbar />
@@ -28,7 +32,11 @@ const App = () => {
           <ScheduleMeeting addMeeting={addMeeting} />
         </div>
         <div className="row">
-          <MeetingList meetings={meetings} editMeeting={editMeeting} />
+          <MeetingList
+            meetings={meetings}
+            editMeeting={editMeeting}
+            deleteMeeting={deleteMeeting}
+          />
         </div>
       </div>
       <Footer />

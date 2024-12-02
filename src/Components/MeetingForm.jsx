@@ -89,9 +89,9 @@ const MeetingForm = ({ addMeeting }) => {
           className={`form-control ${errors.level ? "is-invalid" : ""}`}
         >
           <option value="">Choose Level</option>
-          <option value={"team"}>Team</option>
-          <option value={"department"}>Department</option>
-          <option value={"company"}>Company</option>
+          <option value={"Team"}>Team</option>
+          <option value={"Department"}>Department</option>
+          <option value={"Company"}>Company</option>
         </select>
         {errors.level && (
           <div className="invalid-feedback">{errors.level.message}</div>
