@@ -11,17 +11,24 @@ const App = () => {
     setMeetings([...meetings, meeting]);
   };
 
+  const editMeeting = (id, updatedData) => {
+    console.log("Updated data:", updatedData);
+    setMeetings((prevMeetings) =>
+      prevMeetings.map((meeting) =>
+        meeting.id === id ? { ...meeting, ...updatedData } : meeting
+      )
+    );
+  };
+
   return (
-    <div
-    className="d-flex flex-column min-vh-100"
-    >
+    <div className="d-flex flex-column min-vh-100">
       <Navbar />
       <div className="container my-5 flex-grow-1">
         <div className="row">
           <ScheduleMeeting addMeeting={addMeeting} />
         </div>
         <div className="row">
-          <MeetingList meetings={meetings}/>
+          <MeetingList meetings={meetings} editMeeting={editMeeting} />
         </div>
       </div>
       <Footer />
