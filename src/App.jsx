@@ -3,6 +3,7 @@ import ScheduleMeeting from "./Components/ScheduleMeeting";
 import Navbar from "./Components/Navbar";
 import Footer from "./Components/Footer";
 import MeetingList from "./Components/MeetingList";
+import Dashboard from "./Components/Dashboard";
 
 const App = () => {
   const [meetings, setMeetings] = useState([]);
@@ -25,12 +26,20 @@ const App = () => {
   };
 
   return (
-    <div className="d-flex flex-column min-vh-100">
+    <div className="d-flex flex-column vh-100">
       <Navbar />
-      <div className="container my-5 flex-grow-1">
+
+      <div className="container-fluid my-4 flex-grow-1">
         <div className="row">
-          <ScheduleMeeting addMeeting={addMeeting} />
+          <div className="col-md-2">
+            <Dashboard />
+          </div>
+          
+          <div className="col-md-10">
+            <ScheduleMeeting addMeeting={addMeeting} />
+          </div>
         </div>
+
         <div className="row">
           <MeetingList
             meetings={meetings}
