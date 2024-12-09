@@ -2,10 +2,37 @@ import React, { useEffect, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { CiEdit, CiTrash } from "react-icons/ci";
 import { useForm } from "react-hook-form";
+import axios from "axios";
 
 const MeetingList = ({ meetings, editMeeting, deleteMeeting }) => {
   const [editingId, setEditingId] = useState(null);
 
+  const apiEndpoint = "http://localhost:8080/api/meetings";
+
+  const [meetingsData, setMeetingsData] = useState([]);
+
+  useEffect(() => {
+    fetchAllMeetings();
+  }, []);
+
+  const fetchAllMeetings = async () => {
+    console.log("Starting to fetch meetings...");
+    await axios
+      .get(apiEndpoint)
+      .then((response) => {
+        console.log("Response received.", response);
+        if (response.status === 200) {
+          console.log("response data: ", response.data);
+          setMeetingsData(response.data);
+        } else {
+          console.log("Unexpected response status: ", response.status);
+        }
+      })
+      .catch((error) => {
+        console.log("Error occured during the API call.");
+      });
+    console.log("Meetings data fetched.");
+  };
   const {
     register,
     handleSubmit,
@@ -63,18 +90,61 @@ const MeetingList = ({ meetings, editMeeting, deleteMeeting }) => {
         }}
       >
         <h2>List of Created Meetings</h2>
-        <table className="table table-white">
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>Meeting Title</th>
-              <th>Date</th>
-              <th>Time</th>
-              <th>Level</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
+        <div className="table-responsive">
+          <table className="table table-white">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Meeting Title</th>
+                <th>Date</th>
+                <th>Time</th>
+                <th>Level</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {meetingsData.map((meetingsData, index) => (
+                <tr key={index}>
+                  <td>{index + 1}</td>
+                  <td>{meetingsData.title}</td>
+                  <td>{meetingsData.startDate}</td>
+                  <td>{meetingsData.startTime}</td>
+                  <td>
+                    <span
+                      style={{
+                        fontSize: "1rem",
+                        padding: "0.5em",
+                        borderRadius: "1rem",
+                      }}
+                      className={`badge ${
+                        meetingsData.level === "Team"
+                          ? "bg-primary"
+                          : meetingsData.level === "Department"
+                          ? "bg-success"
+                          : "bg-secondary"
+                      }`}
+                    >
+                      {meetingsData.level}
+                    </span>
+                  </td>
+                  <td>
+                    <button
+                      className="btn btn-warning btn-sm me-2"
+                      onClick={() => handleEditClick(meetingsData)}
+                    >
+                      <CiEdit />
+                    </button>
+                    <button
+                      className="btn btn-danger btn-sm"
+                      onClick={() => handleDeleteClick(meetingsData)}
+                    >
+                      <CiTrash />
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+            {/* <tbody>
             {meetings.map((meeting, index) => (
               <tr key={meeting.id || index}>
                 <td>{index + 1}</td>
@@ -216,8 +286,9 @@ const MeetingList = ({ meetings, editMeeting, deleteMeeting }) => {
                 )}
               </tr>
             ))}
-          </tbody>
-        </table>
+          </tbody> */}
+          </table>
+        </div>
       </div>
     </div>
   );
