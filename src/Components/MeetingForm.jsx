@@ -1,8 +1,9 @@
 import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useForm } from "react-hook-form";
+import axios from "axios";
 
-const MeetingForm = ({ addMeeting }) => {
+const MeetingForm = () => {
   const {
     register,
     handleSubmit,
@@ -10,6 +11,17 @@ const MeetingForm = ({ addMeeting }) => {
     reset,
     watch,
   } = useForm();
+
+  const apiEndpoint = "http://localhost:8080/api/meetings";
+
+  const addMeeting = async (data) => {
+    try {
+      const response = await axios.post(apiEndpoint, data);
+      console.log("Meeting created successfully: ", response.data);
+    } catch (error) {
+      console.error("Error creating meeting: ", error);
+    }
+  };
 
   const onSubmit = (data) => {
     addMeeting(data);

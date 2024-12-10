@@ -8,9 +8,6 @@ import Dashboard from "./Components/Dashboard";
 const App = () => {
   const [meetings, setMeetings] = useState([]);
 
-  const addMeeting = (meeting) => {
-    setMeetings([...meetings, meeting]);
-  };
 
   const editMeeting = (id, updatedData) => {
     console.log("Updated data:", updatedData);
@@ -36,7 +33,7 @@ const App = () => {
           </div>
           
           <div className="col-md-10">
-            <ScheduleMeeting addMeeting={addMeeting} />
+            <ScheduleMeeting />
           </div>
         </div>
 
