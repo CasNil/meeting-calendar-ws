@@ -4,34 +4,9 @@ import { CiEdit, CiTrash } from "react-icons/ci";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 
-const MeetingList = ({ meetings, editMeeting, deleteMeeting }) => {
+const MeetingList = ({ meetings, apiEndpoint, reload, setReload }) => {
   const [editingId, setEditingId] = useState(null);
-  const [meetingsData, setMeetingsData] = useState([]);
 
-  const apiEndpoint = "http://localhost:8080/api/meetings";
-
-  useEffect(() => {
-    fetchAllMeetings();
-  }, []);
-
-  const fetchAllMeetings = async () => {
-    console.log("Starting to fetch meetings...");
-    await axios
-      .get(apiEndpoint)
-      .then((response) => {
-        console.log("Response received.", response);
-        if (response.status === 200) {
-          console.log("response data: ", response.data);
-          setMeetingsData(response.data);
-        } else {
-          console.log("Unexpected response status: ", response.status);
-        }
-      })
-      .catch((error) => {
-        console.log("Error occured during the API call.");
-      });
-    console.log("Meetings data fetched.");
-  };
   const {
     register,
     handleSubmit,
@@ -43,7 +18,7 @@ const MeetingList = ({ meetings, editMeeting, deleteMeeting }) => {
 
   useEffect(() => {
     if (editingId !== null) {
-      const meeting = meetingsData.find((meeting) => meeting.id === editingId);
+      const meeting = meetings.find((meeting) => meeting.id === editingId);
       console.log("Selected meeting:", meeting);
       if (meeting) {
         setValue("title", meeting.title);
@@ -57,7 +32,6 @@ const MeetingList = ({ meetings, editMeeting, deleteMeeting }) => {
   }, [editingId, meetings, setValue, reset]);
 
   const handleEditClick = (meeting) => {
-    console.log("Editing passed to handleEditClick:", meeting);
     setEditingId(meeting.id);
   };
 
@@ -65,7 +39,7 @@ const MeetingList = ({ meetings, editMeeting, deleteMeeting }) => {
     try {
       await axios.put(`${apiEndpoint}/${editingId}`, data);
       setEditingId(null);
-      fetchAllMeetings();
+      setReload(!reload);
     } catch (error) {
       console.error("Error saving meeting: ", error);
     }
@@ -75,22 +49,27 @@ const MeetingList = ({ meetings, editMeeting, deleteMeeting }) => {
     setEditingId(null);
   };
 
-  const handleDeleteClick = (meeting) => {
+  const handleDeleteClick = async (data) => {
     const userConfirmed = window.confirm(
-      `Are you sure you want to delete the meeting "${meeting.title}?"`
+      `Are you sure you want to delete the meeting "${data.title}?"`
     );
     if (userConfirmed) {
-      deleteMeeting(meeting.id);
+      try {
+        await axios.delete(`${apiEndpoint}/${data.id}`);
+        setReload(!reload);
+      } catch (error) {
+        console.error("Error deleting meeting: ", error);
+      }
     }
   };
 
   return (
-    <div className="col-md-12">
+    <div>
       <div
         className="border p-3"
         style={{
-          borderRadius: "5px",
-          backgroundColor: "white",
+          borderRadius: "8px",
+          borderColor: "#ddd",
         }}
       >
         <h2>List of Created Meetings</h2>
@@ -107,9 +86,9 @@ const MeetingList = ({ meetings, editMeeting, deleteMeeting }) => {
               </tr>
             </thead>
             <tbody>
-              {meetingsData.map((meetingsData, index) => (
-                <tr key={meetingsData.id}>
-                  {editingId === meetingsData.id ? (
+              {meetings.map((meeting, index) => (
+                <tr key={meeting.id}>
+                  {editingId === meeting.id ? (
                     <>
                       <td>{index + 1}</td>
                       <td>
@@ -227,9 +206,9 @@ const MeetingList = ({ meetings, editMeeting, deleteMeeting }) => {
                   ) : (
                     <>
                       <td>{index + 1}</td>
-                      <td>{meetingsData.title}</td>
-                      <td>{meetingsData.date}</td>
-                      <td>{meetingsData.time}</td>
+                      <td>{meeting.title}</td>
+                      <td>{meeting.date}</td>
+                      <td>{meeting.time}</td>
                       <td>
                         <span
                           style={{
@@ -238,26 +217,26 @@ const MeetingList = ({ meetings, editMeeting, deleteMeeting }) => {
                             borderRadius: "1rem",
                           }}
                           className={`badge ${
-                            meetingsData.level === "Team"
+                            meeting.level === "Team"
                               ? "bg-primary"
-                              : meetingsData.level === "Department"
+                              : meeting.level === "Department"
                               ? "bg-success"
                               : "bg-secondary"
                           }`}
                         >
-                          {meetingsData.level}
+                          {meeting.level}
                         </span>
                       </td>
                       <td>
                         <button
                           className="btn btn-warning btn-sm me-2"
-                          onClick={() => handleEditClick(meetingsData)}
+                          onClick={() => handleEditClick(meeting)}
                         >
                           <CiEdit />
                         </button>
                         <button
                           className="btn btn-danger btn-sm"
-                          onClick={() => handleDeleteClick(meetingsData)}
+                          onClick={() => handleDeleteClick(meeting)}
                         >
                           <CiTrash />
                         </button>

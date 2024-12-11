@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useForm } from "react-hook-form";
 import axios from "axios";
+import { BsCalendar2Week } from "react-icons/bs";
 
-const MeetingForm = () => {
+const MeetingForm = ({ reloadMeetings }) => {
   const {
     register,
     handleSubmit,
@@ -18,6 +19,7 @@ const MeetingForm = () => {
     try {
       const response = await axios.post(apiEndpoint, data);
       console.log("Meeting created successfully: ", response.data);
+      reloadMeetings();
     } catch (error) {
       console.error("Error creating meeting: ", error);
     }
@@ -30,6 +32,24 @@ const MeetingForm = () => {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
+      <div className="col-md-12 mb-2">
+        <div>
+          <div
+            style={{
+              backgroundColor: "blue",
+              border: "2px solid",
+              borderRadius: "6px",
+              padding: "10px",
+              color: "white",
+            }}
+          >
+            <h2 className="d-flex align-items-center">
+              <BsCalendar2Week style={{ marginRight: "10px" }} />
+              Schedule a New Meeting
+            </h2>
+          </div>
+        </div>
+      </div>
       <div className="mb-3">
         <label className="form-label">Meeting Title</label>
         <input
