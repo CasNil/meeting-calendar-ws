@@ -8,20 +8,25 @@ import {
   FaChartLine,
   FaCog,
 } from "react-icons/fa";
+import { Link } from "react-router";
 
 const Dashboard = () => {
   const menuItems = [
-    { label: "Schedule Meeting", icon: FaCalendarPlus },
-    { label: "Manage Meetings", icon: FaRegCalendarAlt },
-    { label: "Users & Permissions", icon: FaUsers },
-    { label: "Notifications", icon: FaBell },
-    { label: "Analytics", icon: FaChartLine },
-    { label: "Settings", icon: FaCog },
+    {
+      label: "Schedule Meeting",
+      icon: FaCalendarPlus,
+      path: "/schedule-meeting",
+    },
+    {
+      label: "Manage Meetings",
+      icon: FaRegCalendarAlt,
+      path: "/manage-meetings",
+    },
+    { label: "Users & Permissions", icon: FaUsers, path: "/users-permissions" },
+    { label: "Notifications", icon: FaBell, path: "/notifications" },
+    { label: "Analytics", icon: FaChartLine, path: "/analytics" },
+    { label: "Settings", icon: FaCog, path: "/settings" },
   ];
-
-  const handleClick = (item) => {
-    alert(`${item.label} clicked!`);
-  };
 
   return (
     <div className="dashboard bg-black text-white rounded-3">
@@ -39,10 +44,14 @@ const Dashboard = () => {
               cursor: "pointer",
               boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
             }}
-            onClick={() => handleClick(item)}
           >
-            <item.icon className="me-3" />
-            {item.label}
+            <Link
+              to={item.path}
+              className="d-flex align-items-center text-decoration-none text-dark"
+            >
+              <item.icon className="me-3" />
+              {item.label}
+            </Link>
           </li>
         ))}
       </ul>
