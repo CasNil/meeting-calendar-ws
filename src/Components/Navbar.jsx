@@ -2,35 +2,36 @@ import React from "react";
 import { BsCalendar2CheckFill, BsFillPersonFill } from "react-icons/bs";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
+import { Link } from "react-router";
 
 const Navbar = () => {
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-black">
       <div className="container-fluid">
-        <a className="navbar-brand d-flex align-items-center" href="/">
+        <Link className="navbar-brand d-flex align-items-center" to="/">
           <BsCalendar2CheckFill className="" />
-        </a>
+        </Link>
         <div className="collapse navbar-collapse">
           <ul className="navbar-nav me-auto">
             <li className="nav-item">
-              <a className="nav-link text-white" href="/">
+              <Link className="nav-link text-white" to="/">
                 Home
-              </a>
+              </Link>
             </li>
             <li className="nav-item">
-              <a className="nav-link text-white" href="/about">
+              <Link className="nav-link text-white" to="/about">
                 About
-              </a>
+              </Link>
             </li>
             <li className="nav-item">
-              <a className="nav-link text-white" href="/services">
+              <Link className="nav-link text-white" to="/services">
                 Services
-              </a>
+              </Link>
             </li>
             <li className="nav-item">
-              <a className="nav-link text-white" href="/contact">
+              <Link className="nav-link text-white" to="/contact">
                 Contact
-              </a>
+              </Link>
             </li>
           </ul>
 

@@ -6,6 +6,8 @@ import Dashboard from "./Components/Dashboard";
 import axios from "axios";
 import MeetingForm from "./Components/MeetingForm";
 import { BrowserRouter as Router, Route, Routes } from "react-router";
+import Contact from "./Components/Contact";
+import About from "./Components/About";
 
 const App = () => {
   const [meetingsData, setMeetingsData] = useState([]);
@@ -100,6 +102,8 @@ const App = () => {
                     />
                   }
                 />
+                <Route path="contact" element={<Contact />} />
+                <Route path="about" element={<About />} />
                 <Route path="*" element={<PageNotFound />} />
               </Routes>
             </div>
