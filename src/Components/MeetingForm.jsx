@@ -134,12 +134,19 @@ const MeetingForm = ({ reloadMeetings }) => {
         <input
           {...register("participants", {
             required: "Participants are required",
-            pattern: {
-              value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
-              message: "Email is invalid",
+            validate: (value) => {
+              const emails = value.split(",").map((email) => email.trim());
+              const emailPattern =
+                /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+              for (const email of emails) {
+                if (!emailPattern.test(email)) {
+                  return "One or more emails are invalid";
+                }
+              }
+              return true;
             },
           })}
-          placeholder="Enter participant emails"
+          placeholder="Enter participant emails, seperated by commas"
           type="text"
           className={`form-control ${errors.participants ? "is-invalid" : ""}`}
         />
