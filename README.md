@@ -33,4 +33,4 @@ For example I merged 2 components into 1 as they were better of as 1 and it made
 
 # Future Improvements
 For future improvements I would like to implement a login function so that each user can login/create an account and save their meetings on their account.  
-I would also like to make it so that when you add "Participants" to a meeting it should add the meeting into that users meetinglist, (If the user is registered with the right email).
+I would also like to make it so that when you add "Participants" to a meeting it should add the meeting into that users meetinglist, (If the user is registered with the right email). This would help companies but also regular users when planning meetings and inviting participants to meeting.
