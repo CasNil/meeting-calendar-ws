@@ -5,3 +5,6 @@ the target group of the application is people who has meetings regularly and nee
 # Main features:
 <p> Add meetings <br>
 Manage meetings </p>
+
+# Technologies used
+- React-axios
