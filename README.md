@@ -7,11 +7,19 @@ Add meetings
 Manage meetings
 
 # Technologies used
-## React:
-- React-axios
+### React:
 - Bootstrap
+- React-axios
+- React-dom
 - React-hook-form
 - React-icons
 - React-router
 
+### Java:
+- Spring Boot Devtools
+- Spring Web
+- JDBC API
+- MySQL Driver
+- Spring Data JPA
+- Validation
 
