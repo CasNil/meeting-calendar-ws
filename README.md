@@ -1,7 +1,7 @@
 # Purpose of the application
-This app is used for scheduling and managing meetings, 
-the target group of the application is people who has meetings regularly and need to manage and see their upcoming meetings.
+<p>This app is used for scheduling and managing meetings, <br>
+the target group of the application is people who has meetings regularly and need to manage and see their upcoming meetings. </p>
 
 # Main features:
-Add meetings
-Manage meetings
+<p> Add meetings <br>
+Manage meetings </p>
