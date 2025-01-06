@@ -1,12 +1,12 @@
-# Purpose of the application
+# Purpose of the Application
 This app is used for scheduling and managing meetings,
 the target group of the application is people who has meetings regularly and need to manage and see their upcoming meetings.
 
-# Main features:
+# Main Features:
 Add meetings  
 Manage meetings
 
-# Technologies used
+# Technologies Used
 ### React:
 - Bootstrap
 - React-axios
@@ -23,3 +23,8 @@ Manage meetings
 - Spring Data JPA
 - Validation
 
+# File Structure
+
+# Challenges Faced
+
+# Future Improvements
