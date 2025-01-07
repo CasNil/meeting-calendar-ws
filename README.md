@@ -4,7 +4,8 @@ the target group of the application is people who has meetings regularly and nee
 
 # Main Features:
 Add meetings  
-Manage meetings
+Manage meetings  
+Navigate on the App
 
 # Technologies Used
 ### React:
